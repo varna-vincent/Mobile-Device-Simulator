@@ -1,10 +1,11 @@
 package com.mobiledevicesimulation;
 
-public class Process {
+public abstract class Process implements Activity {
 
     private int pid;
     private double runningTime;
     private String status;
+    private double powerConsumed;
 
     public int getPid() {
         return pid;
@@ -29,4 +30,20 @@ public class Process {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public double getPowerConsumed() {
+        return powerConsumed;
+    }
+
+    public void setPowerConsumed(double powerConsumed) {
+        this.powerConsumed = powerConsumed;
+    }
+
+    public abstract void consumePower();
+
+    @Override
+    public abstract void executeinForeground(boolean isPowerSaveModeOn);
+
+    @Override
+    public abstract void executeinBackground(boolean isPowerSaveModeOn);
 }
