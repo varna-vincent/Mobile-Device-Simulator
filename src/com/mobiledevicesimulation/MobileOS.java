@@ -14,16 +14,12 @@ public class MobileOS {
     private List<Process> processes;
     private int counter = 0;
 
-    private boolean powerSavingMode = false;
+    private boolean powerSavingMode;
 
     public MobileOS(double power) {
 
         this.power = power;
-
-        if (this.power <= 20) {
-            this.powerSavingMode = true;
-        }
-
+        this.powerSavingMode = power <= 20;
         init();
 
     }
