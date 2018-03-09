@@ -4,6 +4,7 @@ import com.mobiledevicesimulation.apps.CameraApp;
 import com.mobiledevicesimulation.apps.EmailApp;
 import com.mobiledevicesimulation.apps.SharedDocs;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +59,9 @@ public class MobileOS {
 
 
     public void run() {
+
+        getRealProcesses();
+        
         for(Process process : processes) {
 
             if(process.getStatus().equals("Foreground")) {
@@ -68,6 +72,14 @@ public class MobileOS {
                process.executeinBackground(powerSavingMode);
                power -= process.getPowerConsumed();
             }
+        }
+    }
+
+    private void getRealProcesses() {
+        try {
+            java.lang.Process p = Runtime.getRuntime().exec("python yourapp.py");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
