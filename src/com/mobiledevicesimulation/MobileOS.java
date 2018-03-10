@@ -3,6 +3,7 @@ package com.mobiledevicesimulation;
 import com.mobiledevicesimulation.apps.CameraApp;
 import com.mobiledevicesimulation.apps.EmailApp;
 import com.mobiledevicesimulation.apps.SharedDocs;
+import com.mobiledevicesimulation.utils.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -127,7 +128,7 @@ public class MobileOS {
     		try {
     			int hour = Integer.parseInt(hourStr);
     			power -= (hour * 1.0 / 30);
-    			System.out.println(String.format("Remaining CPU power -- %.2f%%", power));
+    			System.out.println("Remaining CPU power = " + Utils.round(power) + "%");
     		} catch (NumberFormatException ex) {
     			ex.printStackTrace();
     		}

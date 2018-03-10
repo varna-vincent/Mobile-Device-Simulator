@@ -1,5 +1,7 @@
 package com.mobiledevicesimulation;
 
+import com.mobiledevicesimulation.utils.Utils;
+
 public abstract class Process implements Activity {
 
     private int pid;
@@ -92,8 +94,8 @@ public abstract class Process implements Activity {
 
     public void displayPower(double cpuPower) {
 
-        System.out.print("\nConsumed " + getPowerConsumed() + "% power.");
-        System.out.println("\nRemaining CPU Power - " + (cpuPower - getPowerConsumed())+ "%");
+        System.out.print("\nConsumed " + Utils.round(getPowerConsumed()) + "% power.");
+        System.out.println("\nRemaining CPU Power - " + Utils.round(cpuPower - getPowerConsumed())+ "%");
     }
 
     public boolean hasPowerToExecute(double cpuPower, double powerConsumed) {
