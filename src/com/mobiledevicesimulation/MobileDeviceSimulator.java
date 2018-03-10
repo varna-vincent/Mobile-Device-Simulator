@@ -13,4 +13,5 @@ public class MobileDeviceSimulator {
 
         new MobileOS(power);
     }
+
 }
