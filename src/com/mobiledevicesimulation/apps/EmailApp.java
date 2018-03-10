@@ -21,23 +21,23 @@ public class EmailApp extends Process {
     }
 
     @Override
-    public void executeinForeground(boolean isPowerSaveModeOn, double power) {
+    public void executeinForeground(boolean isPowerSaveModeOn, double cpuPower) {
 
-        if(hasPowerToExecute(power, POWER_FOREGROUND_POWERSAVEMODE)) {
+        if(hasPowerToExecute(cpuPower, POWER_FOREGROUND_POWERSAVEMODE)) {
             System.out.print("\nGmail: Displaying Ads and rendering the inbox....");
             consumePower(isPowerSaveModeOn);
-            displayPower(power);
+            displayPower(cpuPower);
         }
     }
 
     @Override
-    public void executeinBackground(boolean isPowerSaveModeOn, double power) {
+    public void executeinBackground(boolean isPowerSaveModeOn, double cpuPower) {
 
-        if(hasPowerToExecute(power, POWER_BACKGROUND_POWERSAVEMODE)) {
+        if(hasPowerToExecute(cpuPower, POWER_BACKGROUND_POWERSAVEMODE)) {
             System.out.print("\nGmail: Scanning for network connectivity...");
             System.out.print("\nGmail: Syncing the inbox with the cloud...");
             consumePower(isPowerSaveModeOn);
-            displayPower(power);
+            displayPower(cpuPower);
         }
     }
 }

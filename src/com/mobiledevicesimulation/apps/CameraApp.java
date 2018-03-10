@@ -20,12 +20,12 @@ public class CameraApp extends Process {
     }
 
     @Override
-    public void executeinForeground(boolean isPowerSaveModeOn, double power) {
+    public void executeinForeground(boolean isPowerSaveModeOn, double cpuPower) {
 
-        if(power > 5) {
+        if(cpuPower > 5) {
             takePhoto();
             consumePower(isPowerSaveModeOn);
-            displayPower(power);
+            displayPower(cpuPower);
         } else {
             System.out.println("\nCamera: Battery is critically low. Camera cannot be opened.");
         }
@@ -33,13 +33,13 @@ public class CameraApp extends Process {
     }
 
     @Override
-    public void executeinBackground(boolean isPowerSaveModeOn, double power) {
+    public void executeinBackground(boolean isPowerSaveModeOn, double cpuPower) {
 
-        if(hasPowerToExecute(power, POWER_BACKGROUND_POWERSAVEMODE)) {
+        if(hasPowerToExecute(cpuPower, POWER_BACKGROUND_POWERSAVEMODE)) {
             System.out.println("Camera: Executing bg tasks for camera - Fetch updates");
             // Code bg activity
             consumePower(isPowerSaveModeOn);
-            displayPower(power);
+            displayPower(cpuPower);
         }
     }
 

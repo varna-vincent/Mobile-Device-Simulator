@@ -20,23 +20,23 @@ public class SharedDocs extends Process {
     }
 
     @Override
-    public void executeinForeground(boolean isPowerSaveModeOn, double power) {
+    public void executeinForeground(boolean isPowerSaveModeOn, double cpuPower) {
 
-        if(hasPowerToExecute(power, POWER_FOREGROUND_POWERSAVEMODE)) {
+        if(hasPowerToExecute(cpuPower, POWER_FOREGROUND_POWERSAVEMODE)) {
             System.out.print("\nGoogle Docs: Blocked for user input...");
             consumePower(isPowerSaveModeOn);
-            displayPower(power);
+            displayPower(cpuPower);
         }
     }
 
     @Override
-    public void executeinBackground(boolean isPowerSaveModeOn, double power) {
+    public void executeinBackground(boolean isPowerSaveModeOn, double cpuPower) {
 
-        if(hasPowerToExecute(power, POWER_BACKGROUND_POWERSAVEMODE)) {
+        if(hasPowerToExecute(cpuPower, POWER_BACKGROUND_POWERSAVEMODE)) {
             System.out.print("\nGoogle Docs: Scanning for network connectivity...");
             System.out.print("\nGoogle Docs: Saving changes....");
             consumePower(isPowerSaveModeOn);
-            displayPower(power);
+            displayPower(cpuPower);
         }
     }
 }

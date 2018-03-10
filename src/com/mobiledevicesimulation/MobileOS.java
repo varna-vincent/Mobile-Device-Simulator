@@ -66,7 +66,7 @@ public class MobileOS {
     }
 
     private void updatePowerSavingMode() {
-        
+
         powerSavingMode = power <= 20;
 
         if(powerSavingMode) {
