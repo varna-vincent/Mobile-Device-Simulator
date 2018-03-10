@@ -8,7 +8,7 @@ public class MobileDeviceSimulator {
 
         System.out.println("Initiating Mobile Operating System...");
 
-        System.out.println("Enter power remaining in system: ");
+        System.out.print("Enter power remaining in system: ");
         double power = new Scanner(System.in).nextInt();
 
         MobileOS test = new MobileOS(power);

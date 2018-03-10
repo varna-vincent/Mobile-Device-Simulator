@@ -2,68 +2,48 @@ package com.mobiledevicesimulation.apps;
 
 import com.mobiledevicesimulation.Process;
 
-public class CameraApp extends Process implements Runnable {
+public class CameraApp extends Process {
 
-//    private boolean enable;
-    private boolean isPowerSaveModeOn;
+    private final double POWER_FOREGROUND = 10;
+    private final double POWER_BACKGROUND = 4;
+    private final double POWER_FOREGROUND_POWERSAVEMODE = 5;
+    private final double POWER_BACKGROUND_POWERSAVEMODE = 1;
 
     public CameraApp() {
-        System.out.println("Started Camera App");
-//        this.enable = false;
+
+        setPowerForeground(POWER_FOREGROUND);
+        setPowerBackground(POWER_BACKGROUND);
+        setPowerForegroundPowerSaveMode(POWER_FOREGROUND_POWERSAVEMODE);
+        setPowerBackgroundPowerSaveMode(POWER_BACKGROUND_POWERSAVEMODE);
+        setStatus("Foreground");
+        System.out.println("Running Camera in " + getStatus());
     }
 
     @Override
-    public void executeinForeground(boolean isPowerSaveModeOn) {
+    public void executeinForeground(boolean isPowerSaveModeOn, double cpuPower) {
 
-        this.isPowerSaveModeOn = isPowerSaveModeOn;
-        takePhoto();
-        consumePower();
+        if(cpuPower > 5) {
+            takePhoto();
+            consumePower(isPowerSaveModeOn);
+            displayPower(cpuPower);
+        } else {
+            System.out.println("\nCamera: Battery is critically low. Camera cannot be opened.");
+        }
 
     }
 
     @Override
-    public void executeinBackground(boolean isPowerSaveModeOn) {
+    public void executeinBackground(boolean isPowerSaveModeOn, double cpuPower) {
 
-        this.isPowerSaveModeOn = isPowerSaveModeOn;
-        System.out.println("Executing bg tasks for camera - Fetch updates");
-        // Code bg activity
-        consumePower();
-    }
-
-    @Override
-    public void consumePower() {
-
-        switch (getStatus()) {
-            case "Foreground": setPowerConsumed(isPowerSaveModeOn ? 5 : 10); break;
-            case "Background": setPowerConsumed(isPowerSaveModeOn ? 1 : 4); break;
+        if(hasPowerToExecute(cpuPower, POWER_BACKGROUND_POWERSAVEMODE)) {
+            System.out.println("Camera: Executing bg tasks for camera - Fetch updates");
+            // Code bg activity
+            consumePower(isPowerSaveModeOn);
+            displayPower(cpuPower);
         }
     }
 
     private void takePhoto() {
-        System.out.println("Camera is taking photos");
+        System.out.print("\nCamera: Adjusting focus... Preparing to take photos");
     }
-
-    @Override
-    public void run() {
-//        while (true) {
-//            try {
-//                Thread.sleep(5000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            if (this.enable) {
-//                executeinForeground();
-//                disableCamera();
-//            }
-//
-//        }
-    }
-
-//    public void enableCamera() {
-//        this.enable = true;
-//    }
-//
-//    public void disableCamera() {
-//        this.enable = false;
-//    }
 }

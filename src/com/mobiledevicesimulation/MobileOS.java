@@ -17,14 +17,13 @@ public class MobileOS {
     private int cpuUsage;
     private double power;
     private List<Process> processes;
-    private int counter = 0;
 
     private boolean powerSavingMode;
 
     public MobileOS(double power) {
 
         this.power = power;
-        this.powerSavingMode = power <= 20;
+        updatePowerSavingMode();
         init();
 
     }
@@ -35,47 +34,47 @@ public class MobileOS {
         processes.add(new EmailApp());
         processes.add(new CameraApp());
         processes.add(new SharedDocs());
+
+        run();
     }
-
-//    public void startRunning() {
-//
-//        while (true) {
-//            Process foregroundProcess = processes.get(counter% processes.size());
-//            counter++;
-//            foregroundProcess.run();
-//            try {
-//                Thread.sleep(30000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            foregroundProcess.stop();
-//
-//
-//        }
-//    }
-
-//
-//
-//    public void managePower(int index, double remainedPwr) {
-//        processes.get(index)
-//        for (int i = 0; i < processes.size(); i++)
-//    }
-
 
     public void run() {
 
-        getRealProcesses();
-        
-        for(Process process : processes) {
+        try {
+            getRealProcesses();
+            simulateFakeProcesses();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-            if(process.getStatus().equals("Foreground")) {
-                // pass power status based on remaining power
-                process.executeinForeground(powerSavingMode);
-                power -= process.getPowerConsumed();
-            } else {
-               process.executeinBackground(powerSavingMode);
-               power -= process.getPowerConsumed();
+    private void simulateFakeProcesses() throws InterruptedException {
+
+        while(power >= 0) {
+
+            for(Process process : processes) {
+
+                if (process.getStatus().equals("Foreground")) {
+                    process.executeinForeground(powerSavingMode, power);
+                    power -= process.getPowerConsumed();
+                } else {
+                    process.executeinBackground(powerSavingMode, power);
+                    power -= process.getPowerConsumed();
+                }
+                Thread.sleep(1000);
+                updatePowerSavingMode();
             }
+        }
+
+        System.out.println("\nYour phone is switching off...");
+    }
+
+    private void updatePowerSavingMode() {
+
+        powerSavingMode = power <= 20;
+
+        if(powerSavingMode) {
+            System.out.println("\nSystem is running now on Power Saving Mode");
         }
     }
 
