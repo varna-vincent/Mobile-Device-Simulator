@@ -126,8 +126,9 @@ public class MobileOS {
     			return;
     		String hourStr = time[0];
     		try {
-    			int minutes = Integer.parseInt(hourStr);
-    			power -= (minutes * 1.0 / 30);
+    			int hour = Integer.parseInt(hourStr);
+    			power -= (hour * 1.0 / 30);
+    			System.out.println(String.format("Remaining CPU power -- %.2f%%", power));
     		} catch (NumberFormatException ex) {
     			ex.printStackTrace();
     		}
