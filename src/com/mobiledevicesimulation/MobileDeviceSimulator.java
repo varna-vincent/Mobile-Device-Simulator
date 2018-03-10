@@ -11,6 +11,8 @@ public class MobileDeviceSimulator {
         System.out.println("Enter power remaining in system: ");
         double power = new Scanner(System.in).nextInt();
 
-        new MobileOS(power);
+        MobileOS test = new MobileOS(power);
+        test.run();
     }
+
 }
