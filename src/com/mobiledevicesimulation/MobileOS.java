@@ -20,6 +20,7 @@ public class MobileOS {
     private List<Process> processes;
 
     private boolean powerSavingMode;
+    private boolean skipBackgroundExecution;
 
     public MobileOS(double power) {
 
@@ -59,8 +60,12 @@ public class MobileOS {
                     process.executeinForeground(powerSavingMode, power);
                     power -= process.getPowerConsumed();
                 } else {
-                    process.executeinBackground(powerSavingMode, power);
-                    power -= process.getPowerConsumed();
+                    if(!skipBackgroundExecution) {
+                        process.executeinBackground(powerSavingMode, power);
+                        power -= process.getPowerConsumed();
+                    } else {
+                        System.out.println("\nSkipping background processes to conserve power");
+                    }
                 }
                 Thread.sleep(1000);
                 updatePowerSavingMode();
@@ -70,11 +75,16 @@ public class MobileOS {
         System.out.println("\nYour phone is switching off...");
     }
 
+    private void toggle(boolean skipBackgroundExecution) {
+        this.skipBackgroundExecution = !skipBackgroundExecution;
+    }
+
     private void updatePowerSavingMode() {
 
         powerSavingMode = power <= 20;
 
         if(powerSavingMode) {
+            toggle(skipBackgroundExecution);
             System.out.println("\nSystem is running now on Power Saving Mode");
         }
     }
@@ -104,8 +114,8 @@ public class MobileOS {
 				if (infos.length < 4) 
 					continue;
 				String pidStr = infos[0], exeTime = infos[1], cpu = infos[2], mem = infos[3];
-				parseExeTime(exeTime);
 				System.out.println(String.format("Real process %s: It has been executed for %s time, it occupies %s CPU and %s memory.", pidStr, exeTime, cpu, mem));
+                parseExeTime(exeTime);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

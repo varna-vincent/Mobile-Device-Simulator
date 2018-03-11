@@ -34,10 +34,14 @@ public class EmailApp extends Process {
     public void executeinBackground(boolean isPowerSaveModeOn, double cpuPower) {
 
         if(hasPowerToExecute(cpuPower, POWER_BACKGROUND_POWERSAVEMODE)) {
-            System.out.print("\nGmail: Scanning for network connectivity...");
-            System.out.print("\nGmail: Syncing the inbox with the cloud...");
-            consumePower(isPowerSaveModeOn);
-            displayPower(cpuPower);
+            if(cpuPower > 5) {
+                System.out.print("\nGmail: Scanning for network connectivity...");
+                System.out.print("\nGmail: Syncing the inbox with the cloud...");
+                consumePower(isPowerSaveModeOn);
+                displayPower(cpuPower);
+            } else {
+                System.out.println("\nGmail: Low Battery. Automatic Sync Service has been put to sleep.");
+            }
         }
     }
 }

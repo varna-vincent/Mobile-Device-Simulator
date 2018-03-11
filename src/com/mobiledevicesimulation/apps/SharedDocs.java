@@ -33,10 +33,14 @@ public class SharedDocs extends Process {
     public void executeinBackground(boolean isPowerSaveModeOn, double cpuPower) {
 
         if(hasPowerToExecute(cpuPower, POWER_BACKGROUND_POWERSAVEMODE)) {
-            System.out.print("\nGoogle Docs: Scanning for network connectivity...");
-            System.out.print("\nGoogle Docs: Saving changes....");
-            consumePower(isPowerSaveModeOn);
-            displayPower(cpuPower);
+            if(cpuPower > 5) {
+                System.out.print("\nGoogle Docs: Scanning for network connectivity...");
+                System.out.print("\nGoogle Docs: Saving changes....");
+                consumePower(isPowerSaveModeOn);
+                displayPower(cpuPower);
+            } else {
+                System.out.println("\nGoogle Docs: Low Battery. Automatic Sync Service has been put to sleep.");
+            }
         }
     }
 }
