@@ -3,7 +3,7 @@ package com.mobiledevicesimulation.apps;
 import com.mobiledevicesimulation.Process;
 
 public class EmailApp extends Process {
-    
+
     private final double POWER_FOREGROUND = 6;
     private final double POWER_BACKGROUND = 3;
     private final double POWER_FOREGROUND_POWERSAVEMODE = 3.5;
@@ -23,7 +23,7 @@ public class EmailApp extends Process {
     @Override
     public void executeinForeground(boolean isPowerSaveModeOn, double cpuPower) {
 
-        if(hasPowerToExecute(cpuPower, POWER_FOREGROUND_POWERSAVEMODE)) {
+        if (hasPowerToExecute(cpuPower, POWER_FOREGROUND_POWERSAVEMODE)) {
             System.out.print("\nGmail: Displaying Ads and rendering the inbox....");
             consumePower(isPowerSaveModeOn);
             displayPower(cpuPower);
@@ -33,7 +33,7 @@ public class EmailApp extends Process {
     @Override
     public void executeinBackground(boolean isPowerSaveModeOn, double cpuPower) {
 
-        if(hasPowerToExecute(cpuPower, POWER_BACKGROUND_POWERSAVEMODE)) {
+        if (hasPowerToExecute(cpuPower, POWER_BACKGROUND_POWERSAVEMODE)) {
             System.out.print("\nGmail: Scanning for network connectivity...");
             System.out.print("\nGmail: Syncing the inbox with the cloud...");
             consumePower(isPowerSaveModeOn);

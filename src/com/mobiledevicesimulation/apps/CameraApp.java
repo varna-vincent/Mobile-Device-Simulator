@@ -22,7 +22,7 @@ public class CameraApp extends Process {
     @Override
     public void executeinForeground(boolean isPowerSaveModeOn, double cpuPower) {
 
-        if(cpuPower > 5) {
+        if (cpuPower > 5) {
             takePhoto();
             consumePower(isPowerSaveModeOn);
             displayPower(cpuPower);
@@ -35,7 +35,7 @@ public class CameraApp extends Process {
     @Override
     public void executeinBackground(boolean isPowerSaveModeOn, double cpuPower) {
 
-        if(hasPowerToExecute(cpuPower, POWER_BACKGROUND_POWERSAVEMODE)) {
+        if (hasPowerToExecute(cpuPower, POWER_BACKGROUND_POWERSAVEMODE)) {
             System.out.print("\nCamera: Executing bg tasks for camera - Fetch updates");
             // Code bg activity
             consumePower(isPowerSaveModeOn);

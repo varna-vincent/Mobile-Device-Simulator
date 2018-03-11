@@ -1,6 +1,6 @@
 package com.mobiledevicesimulation;
 
-public interface Activity {
+ public interface Activity {
 
     public void executeinForeground(boolean isPowerSaveModeOn, double power);
 
