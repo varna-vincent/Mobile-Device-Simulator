@@ -8,11 +8,17 @@ public abstract class Process implements Activity {
     private double runningTime;
     private String status;
     private double powerConsumed;
+    private int lastForegroundTime;
 
     private double POWER_FOREGROUND;
     private double POWER_BACKGROUND;
     private double POWER_FOREGROUND_POWERSAVEMODE;
     private double POWER_BACKGROUND_POWERSAVEMODE;
+
+    public Process() {
+        runningTime = 0;
+        lastForegroundTime = 0;
+    }
 
     public int getPid() {
         return pid;
@@ -30,12 +36,26 @@ public abstract class Process implements Activity {
         this.runningTime = runningTime;
     }
 
+    public int getLastForegroundTime() {
+        return lastForegroundTime;
+    }
+
+    public void setLastForegroundTime(int t) {
+        this.lastForegroundTime = t;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void flipStatus() {
+        System.out.print("Process is flipped from " + this.status);
+        this.status = ("Foreground".equals(this.status) ? "Background" : "Foreground");
+        System.out.println(" to " + this.status);
     }
 
     public double getPowerConsumed() {
@@ -87,15 +107,19 @@ public abstract class Process implements Activity {
     public void consumePower(boolean isPowerSaveModeOn) {
 
         switch (getStatus()) {
-            case "Foreground": setPowerConsumed(isPowerSaveModeOn ? POWER_FOREGROUND_POWERSAVEMODE : POWER_FOREGROUND); break;
-            case "Background": setPowerConsumed(isPowerSaveModeOn ? POWER_BACKGROUND_POWERSAVEMODE : POWER_BACKGROUND); break;
+            case "Foreground":
+                setPowerConsumed(isPowerSaveModeOn ? POWER_FOREGROUND_POWERSAVEMODE : POWER_FOREGROUND);
+                break;
+            case "Background":
+                setPowerConsumed(isPowerSaveModeOn ? POWER_BACKGROUND_POWERSAVEMODE : POWER_BACKGROUND);
+                break;
         }
     }
 
     public void displayPower(double cpuPower) {
 
         System.out.print("\nConsumed " + Utils.round(getPowerConsumed()) + "% power.");
-        System.out.println("\nRemaining CPU Power - " + Utils.round(cpuPower - getPowerConsumed())+ "%");
+        System.out.println("\nRemaining CPU Power - " + Utils.round(cpuPower - getPowerConsumed()) + "%");
     }
 
     public boolean hasPowerToExecute(double cpuPower, double powerConsumed) {
