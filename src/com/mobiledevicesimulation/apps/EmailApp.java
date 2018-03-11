@@ -3,14 +3,14 @@ package com.mobiledevicesimulation.apps;
 import com.mobiledevicesimulation.Process;
 
 public class EmailApp extends Process {
-
+    
     private final double POWER_FOREGROUND = 6;
     private final double POWER_BACKGROUND = 3;
     private final double POWER_FOREGROUND_POWERSAVEMODE = 3.5;
     private final double POWER_BACKGROUND_POWERSAVEMODE = 1;
 
     public EmailApp() {
-
+        super();
         setPowerForeground(POWER_FOREGROUND);
         setPowerBackground(POWER_BACKGROUND);
         setPowerForegroundPowerSaveMode(POWER_FOREGROUND_POWERSAVEMODE);
