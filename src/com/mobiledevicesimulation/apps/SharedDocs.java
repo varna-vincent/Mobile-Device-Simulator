@@ -11,10 +11,12 @@ public class SharedDocs extends Process {
 
     public SharedDocs() {
 
+        super();
         setPowerForeground(POWER_FOREGROUND);
         setPowerBackground(POWER_BACKGROUND);
         setPowerForegroundPowerSaveMode(POWER_FOREGROUND_POWERSAVEMODE);
         setPowerBackgroundPowerSaveMode(POWER_BACKGROUND_POWERSAVEMODE);
+        setName("Google Docs");
         setStatus("Background");
         System.out.println("Running Google Docs in " + getStatus());
     }
@@ -39,7 +41,8 @@ public class SharedDocs extends Process {
                 consumePower(isPowerSaveModeOn);
                 displayPower(cpuPower);
             } else {
-                System.out.println("\nGoogle Docs: Low Battery. Automatic Sync Service has been put to sleep.");
+                System.out.println("\nGoogle Docs: Low Battery. Automatic Sync Service has been disabled.");
+                sleep();
             }
         }
     }

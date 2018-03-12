@@ -11,10 +11,12 @@ public class EmailApp extends Process {
 
     public EmailApp() {
 
+        super();
         setPowerForeground(POWER_FOREGROUND);
         setPowerBackground(POWER_BACKGROUND);
         setPowerForegroundPowerSaveMode(POWER_FOREGROUND_POWERSAVEMODE);
         setPowerBackgroundPowerSaveMode(POWER_BACKGROUND_POWERSAVEMODE);
+        setName("Gmail");
         setStatus("Background");
 
         System.out.println("Running Gmail in " + getStatus());
@@ -40,7 +42,8 @@ public class EmailApp extends Process {
                 consumePower(isPowerSaveModeOn);
                 displayPower(cpuPower);
             } else {
-                System.out.println("\nGmail: Low Battery. Automatic Sync Service has been put to sleep.");
+                System.out.println("\nGmail: Low Battery. Automatic Sync Service has been disabled.");
+                sleep();
             }
         }
     }

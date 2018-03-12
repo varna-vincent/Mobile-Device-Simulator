@@ -64,7 +64,7 @@ public class MobileOS {
                         process.executeinBackground(powerSavingMode, power);
                         power -= process.getPowerConsumed();
                     } else {
-                        System.out.println("\nSkipping background processes to conserve power");
+                        System.out.println(String.format("\n%s is skipping background processes to conserve power", process.getName()));
                     }
                 }
                 Thread.sleep(1000);
@@ -72,7 +72,7 @@ public class MobileOS {
             }
         }
 
-        System.out.println("\nYour phone is switching off...");
+        System.out.println("\nKilling Processes.\nYour phone is switching off...");
     }
 
     private void toggle(boolean skipBackgroundExecution) {
@@ -114,7 +114,7 @@ public class MobileOS {
 				if (infos.length < 4) 
 					continue;
 				String pidStr = infos[0], exeTime = infos[1], cpu = infos[2], mem = infos[3];
-				System.out.println(String.format("Real process %s: It has been executed for %s time, it occupies %s CPU and %s memory.", pidStr, exeTime, cpu, mem));
+				System.out.println(String.format("\nReal process %s: It has been executed for %s time, it occupies %s CPU and %s memory.", pidStr, exeTime, cpu, mem));
                 parseExeTime(exeTime);
 			}
 		} catch (Exception e) {

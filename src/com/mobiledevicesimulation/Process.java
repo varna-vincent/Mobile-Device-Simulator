@@ -2,23 +2,47 @@ package com.mobiledevicesimulation;
 
 import com.mobiledevicesimulation.utils.Utils;
 
+import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
+
 public abstract class Process implements Activity {
 
-    private int pid;
+    private long pid;
     private double runningTime;
     private String status;
+    private String name;
     private double powerConsumed;
+    private java.lang.Process process;
 
     private double POWER_FOREGROUND;
     private double POWER_BACKGROUND;
     private double POWER_FOREGROUND_POWERSAVEMODE;
     private double POWER_BACKGROUND_POWERSAVEMODE;
 
-    public int getPid() {
+    public Process() {
+
+        try {
+//            Runtime r = Runtime.getRuntime();
+//            process = r.exec("ping -c 3 google.com");
+            process = new ProcessBuilder("/Users/get2binoy/MobileDeviceSimulation/launch.sh").start();
+            dumpProcessInfo(process.toHandle());
+            process.waitFor(10, TimeUnit.SECONDS);
+            setPid(process.pid());
+            System.out.println("\nPid - " + getPid());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public long getPid() {
         return pid;
     }
 
-    public void setPid(int pid) {
+    public void setPid(long pid) {
         this.pid = pid;
     }
 
@@ -37,6 +61,10 @@ public abstract class Process implements Activity {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
 
     public double getPowerConsumed() {
         return powerConsumed;
@@ -94,11 +122,37 @@ public abstract class Process implements Activity {
 
     public void displayPower(double cpuPower) {
 
-        System.out.print("\nConsumed " + Utils.round(getPowerConsumed()) + "% power.");
+        System.out.print("\n" + getName() + " (PID - " + getPid() + ") consumed " + Utils.round(getPowerConsumed()) + "% power.");
         System.out.println("\nRemaining CPU Power - " + Utils.round(cpuPower - getPowerConsumed())+ "%");
     }
 
     public boolean hasPowerToExecute(double cpuPower, double powerConsumed) {
         return (cpuPower - powerConsumed) > 0;
+    }
+
+    public void sleep() {
+        System.out.print("Process " + getPid() + " will be put to sleep.");
+        process.destroy();
+    }
+
+    void dumpProcessInfo(ProcessHandle ph)
+    {
+        System.out.println("\n\nPROCESS INFORMATION");
+        System.out.println("===================");
+        System.out.printf("Process id: %d%n", ph.pid());
+        ProcessHandle.Info info = ph.info();
+        System.out.printf("Command: %s%n", info.command().orElse(""));
+        String[] args = info.arguments().orElse(new String[]{});
+        System.out.println("Arguments:");
+        for (String arg: args)
+            System.out.printf("   %s%n", arg);
+        System.out.printf("Command line: %s%n", info.commandLine().orElse(""));
+        System.out.printf("Start time: %s%n",
+                info.startInstant().orElse(Instant.now()).toString());
+        System.out.printf("Run time duration: %sms%n",
+                info.totalCpuDuration()
+                        .orElse(Duration.ofMillis(0)).toMillis());
+        System.out.printf("Owner: %s%n", info.user().orElse(""));
+        System.out.println();
     }
 }

@@ -10,13 +10,14 @@ public class CameraApp extends Process {
     private final double POWER_BACKGROUND_POWERSAVEMODE = 1;
 
     public CameraApp() {
-
+        super();
         setPowerForeground(POWER_FOREGROUND);
         setPowerBackground(POWER_BACKGROUND);
         setPowerForegroundPowerSaveMode(POWER_FOREGROUND_POWERSAVEMODE);
         setPowerBackgroundPowerSaveMode(POWER_BACKGROUND_POWERSAVEMODE);
+        setName("Camera");
         setStatus("Foreground");
-        System.out.println("Running Camera in " + getStatus());
+        System.out.println("Started Camera in " + getStatus());
     }
 
     @Override
