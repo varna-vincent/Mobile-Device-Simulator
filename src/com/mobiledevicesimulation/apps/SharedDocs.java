@@ -37,7 +37,7 @@ public class SharedDocs extends Process {
         if(hasPowerToExecute(cpuPower, POWER_BACKGROUND_POWERSAVEMODE)) {
             if(cpuPower > 5) {
                 System.out.print("\nGoogle Docs: Scanning for network connectivity...");
-                System.out.print("\nGoogle Docs: Saving changes....");
+                System.out.print("\nGoogle Docs: Syncing with the cloud....");
                 consumePower(isPowerSaveModeOn);
                 displayPower(cpuPower);
             } else {
@@ -50,7 +50,7 @@ public class SharedDocs extends Process {
     @Override
     public void setStatus(String status) {
         if (status.equals("Terminated")) {
-//            System.out.println("\nGoogle Docs process has been stopped due to extremely low power!");
+            System.out.println("\nGoogle Docs process has been stopped due to extremely low power!");
         } else {
             super.setStatus(status);
         }

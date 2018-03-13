@@ -24,14 +24,8 @@ public class MobileOS {
     private boolean skipBackgroundExecution;
     private boolean displayPowerSaveModeMsg;
 
-    private Random rand;
-    private int round;
-
     public MobileOS(double power) {
-
-        this.rand = new Random();
         this.power = power;
-        this.round = 0;
         this.displayPowerSaveModeMsg = true;
         updatePowerSavingMode();
         init();
@@ -60,15 +54,7 @@ public class MobileOS {
 
     private void simulateFakeProcesses() throws InterruptedException {
 
-        int sleepTime = 1000;
-
         while(power >= 0) {
-
-            if (powerSavingMode) {
-                sleepTime = 2000;
-            }
-            boolean hasForeground = false;
-            ++round;
 
             for(Process process : processes) {
 
@@ -82,26 +68,6 @@ public class MobileOS {
                     } else {
                         System.out.println(String.format("\n%s is skipping background processes to conserve power", process.getName()));
                     }
-                }
-
-                // Terminate sharedDoc if power is extremely low and it hasn't been
-                // active for 2 rounds (hours).
-                if (process instanceof SharedDocs && powerIsExtremelyLow() && (round
-                        - process.getLastForegroundTime() > 4)) {
-                    process.setStatus("Terminated");
-                }
-
-                // Each process has 1/3 probablity to switch to a different state after
-                // each round. While at most one process can be running in foreground.
-                if (hasForeground) {
-                    // If we have one process runnning in foreground, all other processes
-                    // have to be in background.
-                    process.setStatus("Background");
-                } else if (rand.nextInt(3) == 0 && !process.getStatus().equals("Terminated")) {
-                    process.flipStatus();
-                }
-                if (process.getStatus().equals("Foreground")) {
-                    hasForeground = true;
                 }
 
                 Thread.sleep(1000);
