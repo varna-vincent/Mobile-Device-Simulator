@@ -46,4 +46,13 @@ public class SharedDocs extends Process {
             }
         }
     }
+
+    @Override
+    public void setStatus(String status) {
+        if (status.equals("Terminated")) {
+//            System.out.println("\nGoogle Docs process has been stopped due to extremely low power!");
+        } else {
+            super.setStatus(status);
+        }
+    }
 }

@@ -15,6 +15,7 @@ public abstract class Process implements Activity {
     private String name;
     private double powerConsumed;
     private java.lang.Process process;
+    private int lastForegroundTime;
 
     private double POWER_FOREGROUND;
     private double POWER_BACKGROUND;
@@ -74,6 +75,10 @@ public abstract class Process implements Activity {
         this.powerConsumed = powerConsumed;
     }
 
+    public int getLastForegroundTime() {  return lastForegroundTime; }
+
+    public void setLastForegroundTime(int lastForegroundTime) { this.lastForegroundTime = lastForegroundTime; }
+
     protected double getPowerForeground() {
         return POWER_FOREGROUND;
     }
@@ -123,7 +128,7 @@ public abstract class Process implements Activity {
     public void displayPower(double cpuPower) {
 
         System.out.print("\n" + getName() + " (PID - " + getPid() + ") consumed " + Utils.round(getPowerConsumed()) + "% power.");
-        System.out.println("\nRemaining CPU Power - " + Utils.round(cpuPower - getPowerConsumed())+ "%");
+        System.out.println("\nRemaining Battery - " + Utils.round(cpuPower - getPowerConsumed())+ "%");
     }
 
     public boolean hasPowerToExecute(double cpuPower, double powerConsumed) {
@@ -131,7 +136,7 @@ public abstract class Process implements Activity {
     }
 
     public void sleep() {
-        System.out.print("Process " + getPid() + " will be put to sleep.");
+        System.out.print(getName() + " (Pid - " + getPid() + ") will be put to sleep.");
         process.destroy();
     }
 
@@ -154,5 +159,11 @@ public abstract class Process implements Activity {
                         .orElse(Duration.ofMillis(0)).toMillis());
         System.out.printf("Owner: %s%n", info.user().orElse(""));
         System.out.println();
+    }
+
+    public void flipStatus() {
+        System.out.print("\n" + getName() + " (Pid - " + getPid() + ") has been flipped from " + this.status);
+        this.status = ("Foreground".equals(this.status) ? "Background" : "Foreground");
+        System.out.println(" to " + this.status);
     }
 }
